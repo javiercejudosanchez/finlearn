@@ -1,0 +1,159 @@
+{
+  "id": "world-2",
+  "title": "Mercados Financieros",
+  "description": "Renta fija, renta variable y derivados",
+  "icon": "📈",
+  "color": "blue",
+  "units": [
+    {
+      "id": "u3",
+      "title": "Renta Variable",
+      "order": 0,
+      "lessons": [
+        {
+          "id": "l5",
+          "title": "Que es una accion?",
+          "order": 0,
+          "xpReward": 10,
+          "exercises": [
+            {
+              "id": "c10",
+              "type": "MULTIPLE_CHOICE",
+              "question": "Que representa una accion?",
+              "order": 0,
+              "options": [
+                { "id": "c10a", "text": "Un prestamo al gobierno", "isCorrect": false, "order": 0 },
+                { "id": "c10b", "text": "Una fraccion de la propiedad de una empresa", "isCorrect": true, "order": 1 },
+                { "id": "c10c", "text": "Un deposito bancario", "isCorrect": false, "order": 2 },
+                { "id": "c10d", "text": "Una poliza de seguros", "isCorrect": false, "order": 3 }
+              ]
+            },
+            {
+              "id": "c11",
+              "type": "MULTIPLE_CHOICE",
+              "question": "Como gana dinero un accionista?",
+              "order": 1,
+              "options": [
+                { "id": "c11a", "text": "Solo por dividendos", "isCorrect": false, "order": 0 },
+                { "id": "c11b", "text": "Solo por la revalorizacion del precio", "isCorrect": false, "order": 1 },
+                { "id": "c11c", "text": "Por dividendos y/o por la revalorizacion del precio", "isCorrect": true, "order": 2 },
+                { "id": "c11d", "text": "Por intereses fijos", "isCorrect": false, "order": 3 }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "l6",
+          "title": "Bonos y deuda publica",
+          "order": 1,
+          "xpReward": 15,
+          "exercises": [
+            {
+              "id": "c12",
+              "type": "MULTIPLE_CHOICE",
+              "question": "Que es un bono?",
+              "order": 0,
+              "options": [
+                { "id": "c12a", "text": "Una participacion en los beneficios de una empresa", "isCorrect": false, "order": 0 },
+                { "id": "c12b", "text": "Un titulo de deuda que paga intereses periodicos", "isCorrect": true, "order": 1 },
+                { "id": "c12c", "text": "Un tipo de cuenta de ahorro", "isCorrect": false, "order": 2 },
+                { "id": "c12d", "text": "Un seguro de vida", "isCorrect": false, "order": 3 }
+              ]
+            },
+            {
+              "id": "c13",
+              "type": "MULTIPLE_CHOICE",
+              "question": "Si un banco central sube los tipos de interes, que ocurre con el precio de los bonos existentes?",
+              "order": 1,
+              "options": [
+                { "id": "c13a", "text": "Suben", "isCorrect": false, "order": 0 },
+                { "id": "c13b", "text": "Se mantienen", "isCorrect": false, "order": 1 },
+                { "id": "c13c", "text": "Bajan", "isCorrect": true, "order": 2 },
+                { "id": "c13d", "text": "No hay relacion", "isCorrect": false, "order": 3 }
+              ]
+            },
+            {
+              "id": "c14",
+              "type": "TRUE_FALSE",
+              "question": "Un bono con mayor yield siempre es mejor inversion.",
+              "order": 2,
+              "options": [
+                { "id": "c14a", "text": "Verdadero", "isCorrect": false, "order": 0 },
+                { "id": "c14b", "text": "Falso — mayor yield implica mayor riesgo", "isCorrect": true, "order": 1 }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "u4",
+      "title": "Analisis Crediticio",
+      "order": 1,
+      "lessons": [
+        {
+          "id": "l7",
+          "title": "Ratios de solvencia",
+          "order": 0,
+          "xpReward": 15,
+          "exercises": [
+            {
+              "id": "c15",
+              "type": "MULTIPLE_CHOICE",
+              "question": "Que mide la ratio Deuda Neta/EBITDA?",
+              "order": 0,
+              "options": [
+                { "id": "c15a", "text": "La rentabilidad sobre ventas", "isCorrect": false, "order": 0 },
+                { "id": "c15b", "text": "Cuantos anios tardaria en pagar su deuda con su beneficio operativo", "isCorrect": true, "order": 1 },
+                { "id": "c15c", "text": "El margen neto de la empresa", "isCorrect": false, "order": 2 },
+                { "id": "c15d", "text": "La liquidez a corto plazo", "isCorrect": false, "order": 3 }
+              ]
+            },
+            {
+              "id": "c16",
+              "type": "MULTIPLE_CHOICE",
+              "question": "Cual de estos ratings indica mayor solvencia?",
+              "order": 1,
+              "options": [
+                { "id": "c16a", "text": "BB+", "isCorrect": false, "order": 0 },
+                { "id": "c16b", "text": "A-", "isCorrect": true, "order": 1 },
+                { "id": "c16c", "text": "BBB-", "isCorrect": false, "order": 2 },
+                { "id": "c16d", "text": "B+", "isCorrect": false, "order": 3 }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "l8",
+          "title": "Que es el EBITDA?",
+          "order": 1,
+          "xpReward": 10,
+          "exercises": [
+            {
+              "id": "c17",
+              "type": "MULTIPLE_CHOICE",
+              "question": "Que es el EBITDA?",
+              "order": 0,
+              "options": [
+                { "id": "c17a", "text": "Beneficio neto despues de impuestos", "isCorrect": false, "order": 0 },
+                { "id": "c17b", "text": "Beneficio antes de intereses, impuestos, depreciacion y amortizacion", "isCorrect": true, "order": 1 },
+                { "id": "c17c", "text": "Flujo de caja libre", "isCorrect": false, "order": 2 },
+                { "id": "c17d", "text": "Ingresos totales menos coste de ventas", "isCorrect": false, "order": 3 }
+              ]
+            },
+            {
+              "id": "c18",
+              "type": "TRUE_FALSE",
+              "question": "El EBITDA es un buen proxy del cash flow operativo de una empresa.",
+              "order": 1,
+              "options": [
+                { "id": "c18a", "text": "Verdadero", "isCorrect": true, "order": 0 },
+                { "id": "c18b", "text": "Falso", "isCorrect": false, "order": 1 }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

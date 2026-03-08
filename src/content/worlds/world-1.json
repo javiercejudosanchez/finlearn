@@ -1,0 +1,157 @@
+{
+  "id": "world-1",
+  "title": "Fundamentos Financieros",
+  "description": "Los pilares basicos de las finanzas",
+  "icon": "🏦",
+  "color": "green",
+  "units": [
+    {
+      "id": "u1",
+      "title": "Conceptos Basicos",
+      "order": 0,
+      "lessons": [
+        {
+          "id": "l1",
+          "title": "Que es la inflacion?",
+          "order": 0,
+          "xpReward": 10,
+          "exercises": [
+            {
+              "id": "c1",
+              "type": "MULTIPLE_CHOICE",
+              "question": "Que es la inflacion?",
+              "order": 0,
+              "options": [
+                { "id": "c1a", "text": "La subida generalizada de precios en una economia", "isCorrect": true, "order": 0 },
+                { "id": "c1b", "text": "La bajada del tipo de interes", "isCorrect": false, "order": 1 },
+                { "id": "c1c", "text": "El aumento del PIB", "isCorrect": false, "order": 2 },
+                { "id": "c1d", "text": "La depreciacion de una moneda frente a otra", "isCorrect": false, "order": 3 }
+              ]
+            },
+            {
+              "id": "c2",
+              "type": "TRUE_FALSE",
+              "question": "Una inflacion del 2% anual es generalmente considerada saludable por los bancos centrales.",
+              "order": 1,
+              "options": [
+                { "id": "c2a", "text": "Verdadero", "isCorrect": true, "order": 0 },
+                { "id": "c2b", "text": "Falso", "isCorrect": false, "order": 1 }
+              ]
+            },
+            {
+              "id": "c3",
+              "type": "FILL_BLANK",
+              "question": "Cuando la inflacion sube, el poder ___ del dinero disminuye.",
+              "order": 2,
+              "options": [
+                { "id": "c3a", "text": "adquisitivo", "isCorrect": true, "order": 0 },
+                { "id": "c3b", "text": "nominal", "isCorrect": false, "order": 1 },
+                { "id": "c3c", "text": "fiscal", "isCorrect": false, "order": 2 },
+                { "id": "c3d", "text": "monetario", "isCorrect": false, "order": 3 }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "l2",
+          "title": "Tipos de interes",
+          "order": 1,
+          "xpReward": 10,
+          "exercises": [
+            {
+              "id": "c4",
+              "type": "MULTIPLE_CHOICE",
+              "question": "Quien fija el tipo de interes de referencia en la Eurozona?",
+              "order": 0,
+              "options": [
+                { "id": "c4a", "text": "La Comision Europea", "isCorrect": false, "order": 0 },
+                { "id": "c4b", "text": "El Banco Central Europeo (BCE)", "isCorrect": true, "order": 1 },
+                { "id": "c4c", "text": "El FMI", "isCorrect": false, "order": 2 },
+                { "id": "c4d", "text": "Cada banco comercial individualmente", "isCorrect": false, "order": 3 }
+              ]
+            },
+            {
+              "id": "c5",
+              "type": "MULTIPLE_CHOICE",
+              "question": "Si el BCE sube los tipos de interes, que efecto tiene sobre el credito?",
+              "order": 1,
+              "options": [
+                { "id": "c5a", "text": "Se abarata, incentivando el consumo", "isCorrect": false, "order": 0 },
+                { "id": "c5b", "text": "Se encarece, frenando el endeudamiento", "isCorrect": true, "order": 1 },
+                { "id": "c5c", "text": "No tiene efecto directo", "isCorrect": false, "order": 2 },
+                { "id": "c5d", "text": "Solo afecta a hipotecas", "isCorrect": false, "order": 3 }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "l3",
+          "title": "Oferta y demanda",
+          "order": 2,
+          "xpReward": 10,
+          "exercises": [
+            {
+              "id": "c6",
+              "type": "MULTIPLE_CHOICE",
+              "question": "Si la demanda de un producto sube y la oferta se mantiene, que ocurre con el precio?",
+              "order": 0,
+              "options": [
+                { "id": "c6a", "text": "Baja", "isCorrect": false, "order": 0 },
+                { "id": "c6b", "text": "Se mantiene", "isCorrect": false, "order": 1 },
+                { "id": "c6c", "text": "Sube", "isCorrect": true, "order": 2 },
+                { "id": "c6d", "text": "Depende del gobierno", "isCorrect": false, "order": 3 }
+              ]
+            },
+            {
+              "id": "c7",
+              "type": "TRUE_FALSE",
+              "question": "En un mercado perfectamente competitivo, una sola empresa puede fijar el precio.",
+              "order": 1,
+              "options": [
+                { "id": "c7a", "text": "Verdadero", "isCorrect": false, "order": 0 },
+                { "id": "c7b", "text": "Falso", "isCorrect": true, "order": 1 }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "u2",
+      "title": "Indicadores Macroeconomicos",
+      "order": 1,
+      "lessons": [
+        {
+          "id": "l4",
+          "title": "PIB y crecimiento",
+          "order": 0,
+          "xpReward": 15,
+          "exercises": [
+            {
+              "id": "c8",
+              "type": "MULTIPLE_CHOICE",
+              "question": "Que mide el PIB (Producto Interior Bruto)?",
+              "order": 0,
+              "options": [
+                { "id": "c8a", "text": "La deuda total de un pais", "isCorrect": false, "order": 0 },
+                { "id": "c8b", "text": "El valor total de bienes y servicios producidos en un pais en un periodo", "isCorrect": true, "order": 1 },
+                { "id": "c8c", "text": "La cantidad de dinero en circulacion", "isCorrect": false, "order": 2 },
+                { "id": "c8d", "text": "El presupuesto del gobierno", "isCorrect": false, "order": 3 }
+              ]
+            },
+            {
+              "id": "c9",
+              "type": "TRUE_FALSE",
+              "question": "Dos trimestres consecutivos de caida del PIB se consideran una recesion tecnica.",
+              "order": 1,
+              "options": [
+                { "id": "c9a", "text": "Verdadero", "isCorrect": true, "order": 0 },
+                { "id": "c9b", "text": "Falso", "isCorrect": false, "order": 1 }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
