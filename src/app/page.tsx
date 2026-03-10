@@ -8,13 +8,13 @@ export default function LandingPage() {
         <span className="text-2xl font-extrabold text-green-600">FinLearn</span>
         <div className="flex gap-3">
           <Link
-            href="/login"
+            href="/learn"
             className="rounded-xl border-2 border-gray-200 px-5 py-2 text-sm font-bold text-gray-700 transition-colors hover:border-green-300"
           >
             Entrar
           </Link>
           <Link
-            href="/register"
+            href="/learn"
             className="rounded-xl bg-green-500 px-5 py-2 text-sm font-bold text-white shadow-md transition-colors hover:bg-green-600"
           >
             Empezar gratis
@@ -32,7 +32,7 @@ export default function LandingPage() {
           Gana XP, mantiene tu racha y sube en el ranking.
         </p>
         <Link
-          href="/register"
+          href="/learn"
           className="mt-8 rounded-xl bg-green-500 px-8 py-4 text-lg font-bold text-white shadow-lg transition-colors hover:bg-green-600"
         >
           Empezar ahora — es gratis
