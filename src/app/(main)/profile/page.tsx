@@ -19,7 +19,7 @@ const AVATARS = [
 type UserData = {
   id: string;
   name: string | null;
-  avatar: string;
+  avatarUrl: string | null;
   email: string;
   lessonsCompleted: number;
 };
@@ -83,12 +83,12 @@ export default function ProfilePage() {
 
   const saveAvatar = async (emoji: string) => {
     if (!userData) return;
-    setUserData((d) => d ? { ...d, avatar: emoji } : d);
+    setUserData((d) => d ? { ...d, avatarUrl: emoji } : d);
     setShowAvatarPicker(false);
     await fetch("/api/user", {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ userId: userData.id, avatar: emoji }),
+      body: JSON.stringify({ userId: userData.id, avatarUrl: emoji }),
     });
   };
 
@@ -113,7 +113,7 @@ export default function ProfilePage() {
   }
 
   const displayName = userData?.name ?? userData?.email?.split("@")[0] ?? "Usuario";
-  const avatar = userData?.avatar ?? "🐻";
+  const avatar = userData?.avatarUrl ?? "🐻";
 
   return (
     <div className="mx-auto max-w-xl px-4 py-8">

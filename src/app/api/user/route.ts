@@ -18,7 +18,6 @@ export async function GET(req: NextRequest) {
       id: true,
       email: true,
       name: true,
-      avatar: true,
       avatarUrl: true,
       xp: true,
       streak: true,
@@ -42,7 +41,7 @@ export async function GET(req: NextRequest) {
 
 export async function PATCH(req: NextRequest) {
   const prisma = getPrisma();
-  const { userId, name, avatar, lives, password } = await req.json();
+  const { userId, name, avatarUrl, lives, password } = await req.json();
 
   if (!userId) {
     return NextResponse.json({ error: "Missing userId" }, { status: 400 });
@@ -50,13 +49,13 @@ export async function PATCH(req: NextRequest) {
 
   const updateData: Record<string, unknown> = {};
   if (name !== undefined) updateData.name = name;
-  if (avatar !== undefined) updateData.avatar = avatar;
+  if (avatarUrl !== undefined) updateData.avatarUrl = avatarUrl;
   if (typeof lives === "number") updateData.lives = Math.max(0, Math.min(5, lives));
 
   const user = await prisma.user.update({
     where: { id: userId },
     data: updateData,
-    select: { id: true, name: true, avatar: true, xp: true, streak: true, level: true },
+    select: { id: true, name: true, avatarUrl: true, xp: true, streak: true, level: true },
   });
 
   // Password change is handled via Supabase Auth — not Prisma

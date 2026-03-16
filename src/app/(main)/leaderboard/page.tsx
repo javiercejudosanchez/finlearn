@@ -9,7 +9,7 @@ import { getSupabase } from "@/lib/supabase";
 type RankEntry = {
   id: string;
   name: string | null;
-  avatar: string;
+  avatarUrl: string | null;
   xp: number;
   isUser?: boolean;
 };
@@ -61,7 +61,7 @@ export default function LeaderboardPage() {
               <span className="w-8 text-center text-lg font-bold text-gray-400">
                 {i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : i + 1}
               </span>
-              <span className="text-2xl">{user.avatar || "🐻"}</span>
+              <span className="text-2xl">{user.avatarUrl || "🐻"}</span>
               <span className="flex-1 font-semibold text-gray-700">
                 {user.name ?? "Usuario"}{user.isUser ? " (tu)" : ""}
               </span>

@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
   }
 
   const total = (xpEarned ?? 0) + (mistakes ?? 0);
-  const score = total > 0 ? Math.round(((xpEarned ?? 0) / total) * 100) / 100 : 0;
+  const score = total > 0 ? Math.round(((xpEarned ?? 0) / total) * 100) : 0;
 
   const progress = await prisma.userProgress.upsert({
     where: { userId_lessonId: { userId, lessonId } },

@@ -23,7 +23,7 @@ export function Navbar() {
         const res = await fetch(`/api/user?userId=${userId}`);
         if (res.ok) {
           const user = await res.json();
-          if (user.avatar) setUserAvatar(user.avatar);
+          if (user.avatarUrl) setUserAvatar(user.avatarUrl);
           syncFromAPI({
             xp: user.xp ?? 0,
             hearts: user.lives ?? 5,
