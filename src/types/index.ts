@@ -158,6 +158,7 @@ export type UnitWithLessons = Unit & {
 
 export type LessonWithExercises = Lesson & {
   exercises: Exercise[];
+  theoryCards?: TheoryCard[];
 };
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -178,12 +179,38 @@ export type ExerciseContent = {
   }[];
 };
 
+export type TheoryCard = {
+  id: string;
+  title: string;
+  content: string;
+  order: number;
+};
+
+export type TheoryPhase = {
+  type: "theory";
+  id: string;
+  title: string;
+  cards: TheoryCard[];
+};
+
+export type TestPhase = {
+  type: "test";
+  id: string;
+  title: string;
+  exercises: ExerciseContent[];
+};
+
+export type LessonPhase = TheoryPhase | TestPhase;
+
 export type LessonContent = {
   id: string;
   title: string;
+  icon?: string;
   order: number;
   xpReward: number;
-  exercises: ExerciseContent[];
+  theoryCards?: TheoryCard[];
+  exercises?: ExerciseContent[];
+  phases?: LessonPhase[];
 };
 
 export type UnitContent = {

@@ -59,43 +59,29 @@ describe("lessonStore", () => {
     expect(s.currentExerciseIndex).toBe(0);
     expect(s.mistakes).toBe(0);
     expect(s.xpEarned).toBe(0);
-    expect(s.heartsLeft).toBe(5);
     expect(s.isComplete).toBe(false);
     expect(s.showExplanation).toBe(false);
     expect(s.lastAnswerCorrect).toBeNull();
     expect(s.answers.size).toBe(0);
   });
 
-  it("submitAnswer correct adds 10 XP and does not lose hearts", () => {
+  it("submitAnswer correct adds 2 XP", () => {
     useLessonStore.getState().submitAnswer("opt-1b", true);
     const s = useLessonStore.getState();
-    expect(s.xpEarned).toBe(10);
-    expect(s.heartsLeft).toBe(5);
+    expect(s.xpEarned).toBe(2);
     expect(s.mistakes).toBe(0);
     expect(s.showExplanation).toBe(true);
     expect(s.lastAnswerCorrect).toBe(true);
     expect(s.answers.get("ex-1")).toBe("opt-1b");
   });
 
-  it("submitAnswer incorrect loses 1 heart and adds 1 mistake", () => {
+  it("submitAnswer incorrect adds 1 mistake", () => {
     useLessonStore.getState().submitAnswer("opt-1a", false);
     const s = useLessonStore.getState();
     expect(s.xpEarned).toBe(0);
-    expect(s.heartsLeft).toBe(4);
     expect(s.mistakes).toBe(1);
     expect(s.showExplanation).toBe(true);
     expect(s.lastAnswerCorrect).toBe(false);
-  });
-
-  it("heartsLeft === 0 marks isComplete", () => {
-    // Lose all 5 hearts
-    for (let i = 0; i < 5; i++) {
-      useLessonStore.getState().submitAnswer("wrong", false);
-      if (i < 4) useLessonStore.getState().nextExercise();
-    }
-    const s = useLessonStore.getState();
-    expect(s.heartsLeft).toBe(0);
-    expect(s.isComplete).toBe(true);
   });
 
   it("nextExercise advances the index and clears explanation", () => {
@@ -121,7 +107,7 @@ describe("lessonStore", () => {
 
     const s = useLessonStore.getState();
     expect(s.isComplete).toBe(true);
-    expect(s.xpEarned).toBe(30);
+    expect(s.xpEarned).toBe(6);
     expect(s.mistakes).toBe(0);
   });
 
@@ -161,7 +147,6 @@ describe("lessonStore", () => {
     expect(s.currentExerciseIndex).toBe(0);
     expect(s.mistakes).toBe(0);
     expect(s.xpEarned).toBe(0);
-    expect(s.heartsLeft).toBe(5);
     expect(s.isComplete).toBe(false);
     expect(s.currentLesson).toBe(mockLesson); // lesson kept
   });

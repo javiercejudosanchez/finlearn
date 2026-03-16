@@ -2,20 +2,15 @@ import { create } from "zustand";
 import type { LessonWithExercises, Exercise } from "@/types";
 
 interface LessonStoreState {
-  // LessonState fields from types
   currentExerciseIndex: number;
   answers: Map<string, string>;
   mistakes: number;
-  xpEarned: number;
+  xpEarned: number;   // 2 per correct answer
   isComplete: boolean;
-
-  // Additional fields
   currentLesson: LessonWithExercises | null;
-  heartsLeft: number;
   showExplanation: boolean;
   lastAnswerCorrect: boolean | null;
 
-  // Actions
   startLesson: (lesson: LessonWithExercises) => void;
   submitAnswer: (answer: unknown, isCorrect: boolean) => void;
   nextExercise: () => void;
@@ -23,8 +18,7 @@ interface LessonStoreState {
   getCurrentExercise: () => Exercise | null;
 }
 
-const INITIAL_HEARTS = 5;
-const XP_PER_CORRECT = 10;
+const XP_PER_CORRECT = 2;
 
 export const useLessonStore = create<LessonStoreState>()((set, get) => ({
   currentExerciseIndex: 0,
@@ -33,7 +27,6 @@ export const useLessonStore = create<LessonStoreState>()((set, get) => ({
   xpEarned: 0,
   isComplete: false,
   currentLesson: null,
-  heartsLeft: INITIAL_HEARTS,
   showExplanation: false,
   lastAnswerCorrect: null,
 
@@ -45,7 +38,6 @@ export const useLessonStore = create<LessonStoreState>()((set, get) => ({
       mistakes: 0,
       xpEarned: 0,
       isComplete: false,
-      heartsLeft: INITIAL_HEARTS,
       showExplanation: false,
       lastAnswerCorrect: null,
     }),
@@ -53,7 +45,6 @@ export const useLessonStore = create<LessonStoreState>()((set, get) => ({
   submitAnswer: (answer, isCorrect) => {
     const { currentLesson, currentExerciseIndex, answers } = get();
     if (!currentLesson) return;
-
     const exercise = currentLesson.exercises[currentExerciseIndex];
     if (!exercise) return;
 
@@ -68,27 +59,20 @@ export const useLessonStore = create<LessonStoreState>()((set, get) => ({
         lastAnswerCorrect: true,
       }));
     } else {
-      set((s) => {
-        const newHearts = s.heartsLeft - 1;
-        return {
-          answers: newAnswers,
-          mistakes: s.mistakes + 1,
-          heartsLeft: newHearts,
-          showExplanation: true,
-          lastAnswerCorrect: false,
-          isComplete: newHearts <= 0,
-        };
-      });
+      set((s) => ({
+        answers: newAnswers,
+        mistakes: s.mistakes + 1,
+        showExplanation: true,
+        lastAnswerCorrect: false,
+      }));
     }
   },
 
   nextExercise: () => {
     const { currentExerciseIndex, currentLesson } = get();
     if (!currentLesson) return;
-
     const nextIndex = currentExerciseIndex + 1;
     const isLast = nextIndex >= currentLesson.exercises.length;
-
     set({
       currentExerciseIndex: isLast ? currentExerciseIndex : nextIndex,
       showExplanation: false,
@@ -100,14 +84,12 @@ export const useLessonStore = create<LessonStoreState>()((set, get) => ({
   resetLesson: () => {
     const { currentLesson } = get();
     if (!currentLesson) return;
-
     set({
       currentExerciseIndex: 0,
       answers: new Map(),
       mistakes: 0,
       xpEarned: 0,
       isComplete: false,
-      heartsLeft: INITIAL_HEARTS,
       showExplanation: false,
       lastAnswerCorrect: null,
     });

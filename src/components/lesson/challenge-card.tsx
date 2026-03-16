@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { useLessonStore } from "@/stores/lessonStore";
+import { useGameStore } from "@/stores/gameStore";
 import { sounds } from "@/lib/sounds";
 import { ProgressBar } from "@/components/ui/ProgressBar";
 
@@ -12,11 +13,12 @@ export function ChallengeCard() {
     currentExerciseIndex,
     showExplanation,
     lastAnswerCorrect,
-    heartsLeft,
     submitAnswer,
     nextExercise,
     getCurrentExercise,
   } = useLessonStore();
+
+  const hearts = useGameStore((s) => s.hearts);
 
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
 
@@ -48,7 +50,7 @@ export function ChallengeCard() {
         <div className="flex-1">
           <ProgressBar value={progress} />
         </div>
-        <span className="text-sm font-bold text-red-500">{heartsLeft}</span>
+        <span className="text-sm font-bold text-red-500">{hearts} ❤️</span>
       </div>
 
       <motion.div
