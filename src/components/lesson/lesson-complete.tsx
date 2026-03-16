@@ -34,7 +34,7 @@ export function LessonComplete() {
       </div>
       <button
         onClick={() => router.push("/learn")}
-        className="mt-4 rounded-xl bg-green-500 px-8 py-3 text-lg font-bold text-white shadow-md hover:bg-green-600"
+        className="mt-4 rounded-xl bg-orange-400 px-8 py-3 text-lg font-bold text-white shadow-md hover:bg-orange-500"
       >
         Continuar
       </button>

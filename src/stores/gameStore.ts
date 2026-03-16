@@ -107,13 +107,17 @@ export const useGameStore = create<GameStoreState>()((set, get) => ({
   },
 
   syncFromAPI: (data) => {
+    // Always take the higher XP value to avoid losing local session progress
+    const localXp = load(LS.xp, 0);
+    const xp = Math.max(localXp, data.xp);
+    // Always trust DB for hearts (lives are managed server-side)
     save(LS.hearts, data.hearts);
-    save(LS.xp, data.xp);
+    save(LS.xp, xp);
     set({
-      xp: data.xp,
+      xp,
       hearts: data.hearts,
       streak: data.streak.currentStreak,
-      level: Math.floor(data.xp / 100) + 1,
+      level: Math.floor(xp / 100) + 1,
       streakData: data.streak,
     });
   },

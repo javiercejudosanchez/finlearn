@@ -23,7 +23,7 @@ export function Sidebar() {
               href={link.href}
               className={`flex flex-col items-center gap-1 rounded-xl p-2 text-xs transition-colors ${
                 active
-                  ? "bg-green-100 text-green-700"
+                  ? "bg-orange-100 text-orange-600"
                   : "text-gray-500 hover:bg-gray-100"
               }`}
             >

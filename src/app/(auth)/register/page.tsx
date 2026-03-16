@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
+import { ArrowLeft } from "lucide-react";
 import { getSupabase } from "@/lib/supabase";
 
 export default function RegisterPage() {
@@ -35,6 +36,13 @@ export default function RegisterPage() {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4">
+      <Link
+        href="/login"
+        className="absolute left-4 top-4 flex items-center gap-1 rounded-lg p-2 text-gray-500 transition-colors hover:bg-gray-100"
+      >
+        <ArrowLeft className="h-5 w-5" />
+        <span className="text-sm">Volver</span>
+      </Link>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -52,7 +60,7 @@ export default function RegisterPage() {
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
-            className="w-full rounded-xl border-2 border-gray-200 px-4 py-3 text-base outline-none transition-colors focus:border-green-500"
+            className="w-full rounded-xl border-2 border-gray-200 px-4 py-3 text-base outline-none transition-colors focus:border-orange-400"
           />
           <input
             type="email"
@@ -60,7 +68,7 @@ export default function RegisterPage() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="w-full rounded-xl border-2 border-gray-200 px-4 py-3 text-base outline-none transition-colors focus:border-green-500"
+            className="w-full rounded-xl border-2 border-gray-200 px-4 py-3 text-base outline-none transition-colors focus:border-orange-400"
           />
           <input
             type="password"
@@ -69,7 +77,7 @@ export default function RegisterPage() {
             onChange={(e) => setPassword(e.target.value)}
             required
             minLength={6}
-            className="w-full rounded-xl border-2 border-gray-200 px-4 py-3 text-base outline-none transition-colors focus:border-green-500"
+            className="w-full rounded-xl border-2 border-gray-200 px-4 py-3 text-base outline-none transition-colors focus:border-orange-400"
           />
 
           {error && <p className="text-sm text-red-500">{error}</p>}
@@ -77,7 +85,7 @@ export default function RegisterPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full rounded-xl bg-green-500 py-3 text-lg font-bold text-white shadow-md transition-colors hover:bg-green-600 disabled:bg-gray-300"
+            className="w-full rounded-xl bg-orange-400 py-3 text-lg font-bold text-white shadow-md transition-colors hover:bg-orange-500 disabled:bg-gray-300"
           >
             {loading ? "Creando cuenta..." : "Empezar gratis"}
           </button>
@@ -85,7 +93,7 @@ export default function RegisterPage() {
 
         <p className="mt-6 text-center text-sm text-gray-500">
           Ya tienes cuenta?{" "}
-          <Link href="/login" className="font-semibold text-green-600 hover:underline">
+          <Link href="/login" className="font-semibold text-orange-500 hover:underline">
             Inicia sesion
           </Link>
         </p>

@@ -15,6 +15,7 @@ import { useLessonStore } from "@/stores/lessonStore";
 import { usePhaseStore } from "@/stores/phaseStore";
 import { useGameStore } from "@/stores/gameStore";
 import { getSupabase } from "@/lib/supabase";
+import { Tiger, type TigerMood } from "@/components/mascot/Tiger";
 import world1 from "@/content/worlds/world-1.json";
 import world2 from "@/content/worlds/world-2.json";
 import type {
@@ -109,7 +110,7 @@ function TheoryPhaseView({
               ))}
             </div>
             {isLast ? (
-              <Button onClick={onFinish} className="flex items-center gap-2 bg-green-500 hover:bg-green-600">
+              <Button onClick={onFinish} className="flex items-center gap-2 bg-orange-400 hover:bg-orange-500">
                 <CheckCircle className="h-4 w-4" /> Continuar
               </Button>
             ) : (
@@ -210,6 +211,10 @@ function TestPhaseView({
 
   const handleContinue = useCallback(() => { playClick(); nextExercise(); }, [nextExercise]);
 
+  const tigerMood: TigerMood = showExplanation
+    ? (lastAnswerCorrect ? "correct" : "wrong")
+    : (currentExerciseIndex === 0 ? "start" : "start");
+
   if (!ready) {
     return <div className="flex min-h-screen items-center justify-center"><p className="text-6xl">📚</p></div>;
   }
@@ -232,6 +237,9 @@ function TestPhaseView({
           <p className="mb-4 text-center text-xs font-medium text-gray-400">
             {lessonTitle} · Fase {phaseIndex + 1} de {totalTestPhases}
           </p>
+          <div className="mb-4">
+            <Tiger mood={tigerMood} />
+          </div>
           <AnimatePresence mode="wait">
             {exercise && (
               <motion.div key={exercise.id} initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -40 }} transition={{ duration: 0.25 }}>

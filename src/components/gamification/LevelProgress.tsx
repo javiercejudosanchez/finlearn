@@ -16,7 +16,7 @@ export function LevelProgress() {
       </div>
       <div className="mt-1 h-3 w-full overflow-hidden rounded-full bg-gray-200">
         <motion.div
-          className="h-full rounded-full bg-green-500"
+          className="h-full rounded-full bg-orange-400"
           initial={{ width: 0 }}
           animate={{ width: `${progress}%` }}
           transition={{ duration: 0.5, ease: "easeOut" }}

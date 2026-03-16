@@ -15,6 +15,7 @@ import world1 from "@/content/worlds/world-1.json";
 import world2 from "@/content/worlds/world-2.json";
 import type { WorldContent, LessonContent } from "@/types";
 import { getSupabase } from "@/lib/supabase";
+import { Tiger } from "@/components/mascot/Tiger";
 
 const worlds = [world1, world2] as unknown as WorldContent[];
 
@@ -175,6 +176,11 @@ export default function LearnPage() {
             onSelect={setActiveWorldId}
           />
         </div>
+      </div>
+
+      {/* Tiger mascot */}
+      <div className="mx-auto max-w-2xl px-4 pt-4">
+        <Tiger mood="home" />
       </div>
 
       {/* World header */}

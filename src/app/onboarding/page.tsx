@@ -1,8 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
+import { ArrowLeft } from "lucide-react";
 
 const steps = [
   {
@@ -61,6 +63,13 @@ export default function OnboardingPage() {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4">
+      <Link
+        href="/register"
+        className="absolute left-4 top-4 flex items-center gap-1 rounded-lg p-2 text-gray-500 transition-colors hover:bg-gray-100"
+      >
+        <ArrowLeft className="h-5 w-5" />
+        <span className="text-sm">Volver</span>
+      </Link>
       <div className="w-full max-w-md">
         {/* Progress dots */}
         <div className="mb-8 flex justify-center gap-2">
@@ -68,7 +77,7 @@ export default function OnboardingPage() {
             <div
               key={i}
               className={`h-2 w-8 rounded-full transition-colors ${
-                i <= step ? "bg-green-500" : "bg-gray-200"
+                i <= step ? "bg-orange-400" : "bg-gray-200"
               }`}
             />
           ))}
@@ -97,8 +106,8 @@ export default function OnboardingPage() {
                       onClick={() => toggleOption(option)}
                       className={`w-full rounded-xl border-2 p-4 text-left text-sm font-medium transition-colors ${
                         selected
-                          ? "border-green-500 bg-green-50"
-                          : "border-gray-200 hover:border-green-300"
+                          ? "border-orange-400 bg-orange-50"
+                          : "border-gray-200 hover:border-orange-300"
                       }`}
                     >
                       {option}
@@ -113,7 +122,7 @@ export default function OnboardingPage() {
         <button
           onClick={handleNext}
           disabled={current.options && !(selections[step]?.length)}
-          className="mt-8 w-full rounded-xl bg-green-500 py-3 text-lg font-bold text-white shadow-md transition-colors hover:bg-green-600 disabled:bg-gray-300"
+          className="mt-8 w-full rounded-xl bg-orange-400 py-3 text-lg font-bold text-white shadow-md transition-colors hover:bg-orange-500 disabled:bg-gray-300"
         >
           {isLast ? "Empezar!" : "Continuar"}
         </button>

@@ -10,7 +10,7 @@ const variantStyles = {
   primary:
     "bg-primary text-white shadow-[0_4px_0_0_#3730A3] active:shadow-[0_1px_0_0_#3730A3] active:translate-y-[3px] hover:brightness-110",
   secondary:
-    "bg-secondary text-white shadow-[0_4px_0_0_#059669] active:shadow-[0_1px_0_0_#059669] active:translate-y-[3px] hover:brightness-110",
+    "bg-secondary text-white shadow-[0_4px_0_0_#e07e1a] active:shadow-[0_1px_0_0_#e07e1a] active:translate-y-[3px] hover:brightness-110",
   danger:
     "bg-danger text-white shadow-[0_4px_0_0_#B91C1C] active:shadow-[0_1px_0_0_#B91C1C] active:translate-y-[3px] hover:brightness-110",
   ghost:

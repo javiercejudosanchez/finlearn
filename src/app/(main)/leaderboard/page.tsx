@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { motion } from "framer-motion";
+import { ArrowLeft } from "lucide-react";
 import { getSupabase } from "@/lib/supabase";
 
 type RankEntry = {
@@ -34,7 +36,12 @@ export default function LeaderboardPage() {
 
   return (
     <div className="mx-auto max-w-xl px-4 py-8">
-      <h1 className="mb-6 text-2xl font-extrabold text-gray-800">Ranking</h1>
+      <div className="mb-4 flex items-center gap-3">
+        <Link href="/learn" className="flex items-center gap-1 rounded-lg p-1.5 text-gray-500 transition-colors hover:bg-gray-100">
+          <ArrowLeft className="h-5 w-5" />
+        </Link>
+        <h1 className="text-2xl font-extrabold text-gray-800">Ranking</h1>
+      </div>
       {loading ? (
         <p className="text-center text-gray-400">Cargando...</p>
       ) : ranking.length === 0 ? (
@@ -48,7 +55,7 @@ export default function LeaderboardPage() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: i * 0.05 }}
               className={`flex items-center gap-4 rounded-xl border-2 p-4 ${
-                user.isUser ? "border-green-400 bg-green-50" : "border-gray-100 bg-white"
+                user.isUser ? "border-orange-400 bg-orange-50" : "border-gray-100 bg-white"
               }`}
             >
               <span className="w-8 text-center text-lg font-bold text-gray-400">

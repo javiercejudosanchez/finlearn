@@ -5,17 +5,17 @@ export default function LandingPage() {
     <div className="flex min-h-screen flex-col">
       {/* Header */}
       <header className="flex items-center justify-between px-6 py-4">
-        <span className="text-2xl font-extrabold text-green-600">FinLearn</span>
+        <span className="text-2xl font-extrabold text-orange-500">FinLearn</span>
         <div className="flex gap-3">
           <Link
             href="/learn"
-            className="rounded-xl border-2 border-gray-200 px-5 py-2 text-sm font-bold text-gray-700 transition-colors hover:border-green-300"
+            className="rounded-xl border-2 border-gray-200 px-5 py-2 text-sm font-bold text-gray-700 transition-colors hover:border-orange-300"
           >
             Entrar
           </Link>
           <Link
             href="/learn"
-            className="rounded-xl bg-green-500 px-5 py-2 text-sm font-bold text-white shadow-md transition-colors hover:bg-green-600"
+            className="rounded-xl bg-orange-400 px-5 py-2 text-sm font-bold text-white shadow-md transition-colors hover:bg-orange-500"
           >
             Empezar gratis
           </Link>
@@ -33,7 +33,7 @@ export default function LandingPage() {
         </p>
         <Link
           href="/learn"
-          className="mt-8 rounded-xl bg-green-500 px-8 py-4 text-lg font-bold text-white shadow-lg transition-colors hover:bg-green-600"
+          className="mt-8 rounded-xl bg-orange-400 px-8 py-4 text-lg font-bold text-white shadow-lg transition-colors hover:bg-orange-500"
         >
           Empezar ahora — es gratis
         </Link>

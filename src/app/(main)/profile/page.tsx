@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { Eye, EyeOff } from "lucide-react";
+import { ArrowLeft, Eye, EyeOff } from "lucide-react";
 import { useGameStore } from "@/stores/gameStore";
 import { LevelProgress } from "@/components/gamification/LevelProgress";
 import { getSupabase } from "@/lib/supabase";
@@ -116,11 +117,18 @@ export default function ProfilePage() {
 
   return (
     <div className="mx-auto max-w-xl px-4 py-8">
+      {/* Back button */}
+      <div className="mb-4 flex items-center gap-2">
+        <Link href="/learn" className="flex items-center gap-1 rounded-lg p-1.5 text-gray-500 transition-colors hover:bg-gray-100">
+          <ArrowLeft className="h-5 w-5" />
+          <span className="text-sm">Volver</span>
+        </Link>
+      </div>
       {/* Avatar */}
       <div className="flex flex-col items-center gap-3">
         <button
           onClick={() => setShowAvatarPicker(true)}
-          className="relative flex h-24 w-24 items-center justify-center rounded-full bg-green-100 text-5xl transition-transform hover:scale-105"
+          className="relative flex h-24 w-24 items-center justify-center rounded-full bg-orange-100 text-5xl transition-transform hover:scale-105"
         >
           {avatar}
           <span className="absolute bottom-0 right-0 flex h-7 w-7 items-center justify-center rounded-full bg-white text-sm shadow">✏️</span>
@@ -128,7 +136,7 @@ export default function ProfilePage() {
 
         {editingName ? (
           <div className="flex items-center gap-2">
-            <input autoFocus className="rounded-xl border-2 border-green-400 px-3 py-1.5 text-lg font-bold text-gray-800 outline-none"
+            <input autoFocus className="rounded-xl border-2 border-orange-400 px-3 py-1.5 text-lg font-bold text-gray-800 outline-none"
               value={nameInput} onChange={(e) => setNameInput(e.target.value)} onKeyDown={(e) => e.key === "Enter" && saveName()} />
             <Button onClick={saveName} disabled={savingName} className="text-sm">{savingName ? "..." : "Guardar"}</Button>
             <Button variant="ghost" onClick={() => setEditingName(false)} className="text-sm">Cancelar</Button>
@@ -150,7 +158,7 @@ export default function ProfilePage() {
             <div className="grid grid-cols-5 gap-3">
               {AVATARS.map((emoji, i) => (
                 <button key={i} onClick={() => saveAvatar(emoji)}
-                  className={`flex h-12 w-12 items-center justify-center rounded-xl text-2xl transition-all hover:scale-110 ${avatar === emoji ? "bg-green-100 ring-2 ring-green-500" : "bg-gray-50 hover:bg-gray-100"}`}>
+                  className={`flex h-12 w-12 items-center justify-center rounded-xl text-2xl transition-all hover:scale-110 ${avatar === emoji ? "bg-orange-100 ring-2 ring-orange-400" : "bg-gray-50 hover:bg-gray-100"}`}>
                   {emoji}
                 </button>
               ))}
@@ -174,8 +182,8 @@ export default function ProfilePage() {
           <p className="text-xl font-bold text-red-500">{hearts} ❤️</p>
           <p className="text-xs text-gray-500 leading-tight">Vidas<br /><span className="text-[10px] text-gray-400">{globalMistakeCount}/70</span></p>
         </div>
-        <div className="rounded-xl bg-green-50 p-3 text-center">
-          <p className="text-xl font-bold text-green-600">{userData?.lessonsCompleted ?? 0}</p>
+        <div className="rounded-xl bg-orange-50 p-3 text-center">
+          <p className="text-xl font-bold text-orange-500">{userData?.lessonsCompleted ?? 0}</p>
           <p className="text-xs text-gray-500">Lecciones</p>
         </div>
       </div>
@@ -218,14 +226,14 @@ export default function ProfilePage() {
                 placeholder="Nueva contrasena (min. 6 caracteres)"
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
-                className="w-full rounded-xl border-2 border-gray-200 px-4 py-2.5 pr-10 text-sm outline-none transition-colors focus:border-green-500"
+                className="w-full rounded-xl border-2 border-gray-200 px-4 py-2.5 pr-10 text-sm outline-none transition-colors focus:border-orange-400"
               />
               <button type="button" onClick={() => setShowNewPassword((v) => !v)}
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
                 {showNewPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
               </button>
             </div>
-            {passwordMsg && <p className={`mt-2 text-xs ${passwordMsg.startsWith("Error") ? "text-red-500" : "text-green-600"}`}>{passwordMsg}</p>}
+            {passwordMsg && <p className={`mt-2 text-xs ${passwordMsg.startsWith("Error") ? "text-red-500" : "text-orange-500"}`}>{passwordMsg}</p>}
             <Button onClick={changePassword} disabled={changingPassword} className="mt-3 w-full">
               {changingPassword ? "Guardando..." : "Actualizar contrasena"}
             </Button>

@@ -7,6 +7,7 @@ import { Star, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { playComplete } from "@/lib/sounds";
 import confetti from "@/lib/confetti";
+import { Tiger } from "@/components/mascot/Tiger";
 
 interface LessonCompleteProps {
   xpEarned: number;
@@ -93,6 +94,16 @@ export function LessonComplete({
           <span className="text-2xl font-bold text-gray-800">{mistakes}</span>
           <span className="text-xs text-gray-500">{mistakes === 1 ? "Error" : "Errores"}</span>
         </div>
+      </motion.div>
+
+      {/* Tiger mascot */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.9 }}
+        className="mt-6 flex justify-center"
+      >
+        <Tiger mood="complete" />
       </motion.div>
 
       {/* Continue button */}
