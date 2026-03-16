@@ -72,3 +72,23 @@ export function scoreToQuality(scorePercent: number): number {
   if (scorePercent >= 20) return 1;
   return 0;
 }
+
+export type WrongAnswerRecord = {
+  exerciseId: string;
+  count?: number;
+};
+
+/**
+ * Selects up to `limit` exercises, prioritising those the user has
+ * answered wrong before (spaced-repetition boost).
+ */
+export function selectExercises<T extends { id: string }>(
+  exercises: T[],
+  wrongs: WrongAnswerRecord[],
+  limit: number
+): T[] {
+  const wrongIds = new Set(wrongs.map((w) => w.exerciseId));
+  const priority = exercises.filter((e) => wrongIds.has(e.id));
+  const rest = exercises.filter((e) => !wrongIds.has(e.id));
+  return [...priority, ...rest].slice(0, limit);
+}
