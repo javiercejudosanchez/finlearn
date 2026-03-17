@@ -3,7 +3,6 @@
 import { useState, useMemo, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { useGameStore } from "@/stores/gameStore";
 import { usePhaseStore } from "@/stores/phaseStore";
 import { LessonNode } from "@/components/gamification/LessonNode";
 import { PathConnector } from "@/components/gamification/PathConnector";

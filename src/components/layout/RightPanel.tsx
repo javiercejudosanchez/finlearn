@@ -40,14 +40,11 @@ export function RightPanel() {
   const { xp } = useGameStore();
   const { level, progress } = getLevelInfo(xp);
   const [ranking, setRanking] = useState<RankEntry[]>([]);
-  const [userId, setUserId] = useState<string | null>(null);
-  const [testsToday, setTestsToday] = useState(0);
   const dailyFact = getDailyFact();
 
   useEffect(() => {
     async function load() {
       const { data: { session } } = await getSupabase().auth.getSession();
-      setUserId(session?.user?.id ?? null);
       try {
         const res = await fetch("/api/leaderboard");
         if (res.ok) {
@@ -60,6 +57,7 @@ export function RightPanel() {
   }, []);
 
   const dailyGoal = 2;
+  const testsToday = 0;
   const goalPct = Math.min(100, (testsToday / dailyGoal) * 100);
 
   return (
