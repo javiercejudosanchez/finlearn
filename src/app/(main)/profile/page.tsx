@@ -16,12 +16,20 @@ const AVATARS = [
   "🧑‍💼", "👩‍💻", "🧑‍🎓", "🏆",
 ];
 
+const BADGES = [
+  { id: "first_lesson", icon: "🎓", label: "Primera lección", desc: "Completa tu primera lección" },
+  { id: "streak_3",     icon: "🔥", label: "Racha de 3 días", desc: "Estudia 3 días seguidos" },
+  { id: "perfect",      icon: "⭐", label: "Sin fallos",      desc: "Completa un test sin errores" },
+  { id: "level1",       icon: "🏆", label: "Nivel 1 superado", desc: "Termina todas las lecciones del nivel 1" },
+];
+
 type UserData = {
   id: string;
   name: string | null;
   avatarUrl: string | null;
   email: string;
   lessonsCompleted: number;
+  createdAt?: string;
 };
 
 export default function ProfilePage() {
@@ -115,20 +123,27 @@ export default function ProfilePage() {
   const displayName = userData?.name ?? userData?.email?.split("@")[0] ?? "Usuario";
   const avatar = userData?.avatarUrl ?? "🐻";
 
+  // Compute earned badges
+  const earnedBadges = new Set<string>();
+  if ((userData?.lessonsCompleted ?? 0) >= 1) earnedBadges.add("first_lesson");
+  if (streak >= 3) earnedBadges.add("streak_3");
+  // "perfect" and "level1" require more data — keep locked for now
+
   return (
     <div className="mx-auto max-w-xl px-4 py-8">
-      {/* Back button */}
+      {/* Back */}
       <div className="mb-4 flex items-center gap-2">
-        <Link href="/learn" className="flex items-center gap-1 rounded-lg p-1.5 text-gray-500 transition-colors hover:bg-gray-100">
+        <Link href="/learn" className="flex items-center gap-1 rounded-lg p-1.5 text-gray-500 transition-colors hover:bg-white">
           <ArrowLeft className="h-5 w-5" />
           <span className="text-sm">Volver</span>
         </Link>
       </div>
+
       {/* Avatar */}
       <div className="flex flex-col items-center gap-3">
         <button
           onClick={() => setShowAvatarPicker(true)}
-          className="relative flex h-24 w-24 items-center justify-center rounded-full bg-orange-100 text-5xl transition-transform hover:scale-105"
+          className="relative flex h-24 w-24 items-center justify-center rounded-full bg-orange-100 text-5xl transition-transform hover:scale-105 border-4 border-orange-200"
         >
           {avatar}
           <span className="absolute bottom-0 right-0 flex h-7 w-7 items-center justify-center rounded-full bg-white text-sm shadow">✏️</span>
@@ -148,6 +163,11 @@ export default function ProfilePage() {
           </div>
         )}
         {userData?.email && <p className="text-sm text-gray-400">{userData.email}</p>}
+        {userData?.createdAt && (
+          <p className="text-xs text-gray-400">
+            Miembro desde {new Date(userData.createdAt).toLocaleDateString("es-ES", { month: "long", year: "numeric" })}
+          </p>
+        )}
       </div>
 
       {/* Avatar picker */}
@@ -170,28 +190,53 @@ export default function ProfilePage() {
 
       {/* Stats */}
       <div className="mt-8 grid grid-cols-4 gap-3">
-        <div className="rounded-xl bg-amber-50 p-3 text-center">
+        <div className="rounded-2xl bg-white p-3 text-center shadow-sm border border-orange-100">
           <p className="text-xl font-bold text-amber-600">{xp}</p>
           <p className="text-xs text-gray-500">Puntos</p>
         </div>
-        <div className="rounded-xl bg-orange-50 p-3 text-center">
+        <div className="rounded-2xl bg-white p-3 text-center shadow-sm border border-orange-100">
           <p className="text-xl font-bold text-orange-500">{streak}</p>
           <p className="text-xs text-gray-500">Racha</p>
         </div>
-        <div className="rounded-xl bg-red-50 p-3 text-center">
+        <div className="rounded-2xl bg-white p-3 text-center shadow-sm border border-orange-100">
           <p className="text-xl font-bold text-red-500">{hearts} ❤️</p>
           <p className="text-xs text-gray-500 leading-tight">Vidas<br /><span className="text-[10px] text-gray-400">{globalMistakeCount}/70</span></p>
         </div>
-        <div className="rounded-xl bg-orange-50 p-3 text-center">
-          <p className="text-xl font-bold text-orange-500">{userData?.lessonsCompleted ?? 0}</p>
+        <div className="rounded-2xl bg-white p-3 text-center shadow-sm border border-orange-100">
+          <p className="text-xl font-bold text-emerald-600">{userData?.lessonsCompleted ?? 0}</p>
           <p className="text-xs text-gray-500">Lecciones</p>
         </div>
       </div>
 
-      <div className="mt-6"><LevelProgress /></div>
+      <div className="mt-6 rounded-2xl bg-white p-4 shadow-sm border border-orange-100">
+        <LevelProgress />
+      </div>
+
+      {/* Badges */}
+      <div className="mt-6 rounded-2xl bg-white p-5 shadow-sm border border-orange-100">
+        <h2 className="mb-4 font-bold text-gray-700">Insignias</h2>
+        <div className="grid grid-cols-4 gap-3">
+          {BADGES.map((badge) => {
+            const earned = earnedBadges.has(badge.id);
+            return (
+              <motion.div
+                key={badge.id}
+                whileHover={{ scale: 1.05 }}
+                title={badge.desc}
+                className="flex flex-col items-center gap-1"
+              >
+                <div className={`flex h-14 w-14 items-center justify-center rounded-full text-2xl border-2 ${earned ? "bg-amber-50 border-amber-300 shadow-sm" : "bg-gray-100 border-gray-200 grayscale opacity-50"}`}>
+                  {badge.icon}
+                </div>
+                <span className="text-center text-[10px] font-medium text-gray-500 leading-tight">{badge.label}</span>
+              </motion.div>
+            );
+          })}
+        </div>
+      </div>
 
       {/* Account info */}
-      <div className="mt-8 rounded-2xl border border-gray-100 bg-white p-5">
+      <div className="mt-4 rounded-2xl border border-orange-100 bg-white p-5 shadow-sm">
         <h2 className="mb-4 font-bold text-gray-700">Cuenta</h2>
         <div className="space-y-3">
           <div>
@@ -213,7 +258,7 @@ export default function ProfilePage() {
       </div>
 
       {/* Change password */}
-      <div className="mt-4 rounded-2xl border border-gray-100 bg-white p-5">
+      <div className="mt-4 rounded-2xl border border-orange-100 bg-white p-5 shadow-sm">
         <button className="flex w-full items-center justify-between font-bold text-gray-700" onClick={() => setShowPasswordSection((v) => !v)}>
           Cambiar contrasena
           <span className="text-gray-400">{showPasswordSection ? "▲" : "▼"}</span>
@@ -233,7 +278,7 @@ export default function ProfilePage() {
                 {showNewPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
               </button>
             </div>
-            {passwordMsg && <p className={`mt-2 text-xs ${passwordMsg.startsWith("Error") ? "text-red-500" : "text-orange-500"}`}>{passwordMsg}</p>}
+            {passwordMsg && <p className={`mt-2 text-xs ${passwordMsg.startsWith("Error") ? "text-red-500" : "text-emerald-600"}`}>{passwordMsg}</p>}
             <Button onClick={changePassword} disabled={changingPassword} className="mt-3 w-full">
               {changingPassword ? "Guardando..." : "Actualizar contrasena"}
             </Button>

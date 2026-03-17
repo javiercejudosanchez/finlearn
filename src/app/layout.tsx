@@ -25,7 +25,8 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body
-        className={`${jakarta.variable} ${fredoka.variable} font-sans antialiased bg-gray-50`}
+        className={`${jakarta.variable} ${fredoka.variable} font-sans antialiased`}
+        style={{ background: "linear-gradient(160deg, #FFF8F0 0%, #FFF3E0 100%)", minHeight: "100vh" }}
       >
         {children}
       </body>
