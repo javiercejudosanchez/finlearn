@@ -10,10 +10,11 @@ import { WorldSelector } from "@/components/gamification/WorldSelector";
 import { LessonStatus } from "@/types";
 import world1 from "@/content/worlds/world-1.json";
 import world2 from "@/content/worlds/world-2.json";
+import world3 from "@/content/worlds/world-3.json";
 import type { WorldContent, LessonContent } from "@/types";
 import { getSupabase } from "@/lib/supabase";
 
-const worlds = [world1, world2] as unknown as WorldContent[];
+const worlds = [world1, world2, world3] as unknown as WorldContent[];
 
 const zigzagOffsets = [-50, 0, 50, 0];
 
