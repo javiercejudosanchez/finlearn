@@ -8,7 +8,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen">
       <Navbar />
-      <div className="mx-auto max-w-7xl px-4 pt-16 pb-10">
+      <div className="mx-auto max-w-7xl px-4 pt-16 pb-24 lg:pb-10">
         <div className="flex gap-6 items-start">
           {/* Left panel — desktop only */}
           <aside className="hidden lg:block w-60 xl:w-64 shrink-0 sticky top-20">

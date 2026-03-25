@@ -4,13 +4,16 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { useGameStore } from "@/stores/gameStore";
+import { useStatsStore } from "@/stores/statsStore";
 import { getSupabase } from "@/lib/supabase";
 import { Tiger } from "@/components/mascot/Tiger";
 
 export function LeftPanel() {
   const { hearts, streak, globalMistakeCount, xp } = useGameStore();
+  const stats = useStatsStore();
   const [userName, setUserName] = useState<string | null>(null);
   const [userAvatar, setUserAvatar] = useState<string>("🐯");
+  const [memberDays, setMemberDays] = useState<number | null>(null);
 
   useEffect(() => {
     async function load() {
@@ -22,6 +25,10 @@ export function LeftPanel() {
           const u = await res.json();
           setUserName(u.name ?? u.email?.split("@")[0] ?? "Usuario");
           if (u.avatarUrl) setUserAvatar(u.avatarUrl);
+          if (u.createdAt) {
+            const days = Math.floor((Date.now() - new Date(u.createdAt).getTime()) / 86400000);
+            setMemberDays(Math.max(1, days));
+          }
         }
       } catch { /* ignore */ }
     }
@@ -29,6 +36,9 @@ export function LeftPanel() {
   }, []);
 
   const mistakePct = Math.round((globalMistakeCount / 70) * 100);
+  const accuracy = stats.questionsAnswered > 0
+    ? Math.round((stats.questionsCorrect / stats.questionsAnswered) * 100)
+    : 0;
 
   return (
     <div className="flex flex-col gap-4">
@@ -65,11 +75,7 @@ export function LeftPanel() {
             ))}
           </div>
           <div className="h-1.5 w-full rounded-full bg-gray-200 overflow-hidden">
-            <motion.div
-              className="h-full rounded-full bg-red-400"
-              animate={{ width: `${mistakePct}%` }}
-              transition={{ duration: 0.4 }}
-            />
+            <motion.div className="h-full rounded-full bg-red-400" animate={{ width: `${mistakePct}%` }} transition={{ duration: 0.4 }} />
           </div>
         </div>
       </Link>
@@ -77,6 +83,39 @@ export function LeftPanel() {
       {/* Tiger */}
       <div className="rounded-2xl bg-white p-4 shadow-sm border border-orange-100">
         <Tiger mood="home" size="large" />
+      </div>
+
+      {/* Stats */}
+      <div className="rounded-2xl bg-white p-4 shadow-sm border border-orange-100">
+        <h3 className="mb-3 text-sm font-bold text-gray-800 flex items-center gap-2">
+          📊 <span>Mis estadísticas</span>
+        </h3>
+        <div className="space-y-2.5">
+          <div className="flex items-center justify-between text-xs">
+            <span className="text-gray-500 flex items-center gap-1.5">✅ Tests completados</span>
+            <span className="font-bold text-gray-700">{stats.testsCompleted}</span>
+          </div>
+          <div className="flex items-center justify-between text-xs">
+            <span className="text-gray-500 flex items-center gap-1.5">❓ Preguntas acertadas</span>
+            <span className="font-bold text-gray-700">{stats.questionsCorrect}</span>
+          </div>
+          <div className="flex items-center justify-between text-xs">
+            <span className="text-gray-500 flex items-center gap-1.5">🎯 Porcentaje de acierto</span>
+            <span className={`font-bold ${accuracy >= 80 ? "text-emerald-600" : accuracy >= 60 ? "text-amber-600" : "text-gray-700"}`}>
+              {accuracy}%
+            </span>
+          </div>
+          <div className="flex items-center justify-between text-xs">
+            <span className="text-gray-500 flex items-center gap-1.5">⚡ Mejor racha</span>
+            <span className="font-bold text-gray-700">{stats.bestAnswerStreak} seguidas</span>
+          </div>
+          {memberDays !== null && (
+            <div className="flex items-center justify-between text-xs">
+              <span className="text-gray-500 flex items-center gap-1.5">📅 Tiempo como usuario</span>
+              <span className="font-bold text-gray-700">{memberDays} día{memberDays !== 1 ? "s" : ""}</span>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

@@ -122,16 +122,28 @@ export default function LearnPage() {
           const lastPrevStatus = lastPrevLesson
             ? lessonStatuses.get(lastPrevLesson.id)?.status ?? LessonStatus.LOCKED
             : LessonStatus.LOCKED;
+          const lastPrevGlobalIdx = lastPrevLesson
+            ? flatLessons.findIndex((l) => l.id === lastPrevLesson.id)
+            : -1;
+          const lastPrevOffset = lastPrevGlobalIdx >= 0 ? getZigzagOffset(lastPrevGlobalIdx) : 0;
+
+          // First lesson global index for this world
+          const firstLessonGlobalIdx = firstLessonId
+            ? flatLessons.findIndex((l) => l.id === firstLessonId)
+            : globalLessonIndex;
+          const firstLessonOffset = firstLessonGlobalIdx >= 0 ? getZigzagOffset(firstLessonGlobalIdx) : 0;
 
           const gradientClass = WORLD_GRADIENTS[worldIndex] ?? WORLD_GRADIENTS[0];
 
           return (
             <div key={world.id} className="w-full flex flex-col items-center">
-              {/* Connector from previous world's last lesson to this banner */}
+              {/* Connector: last lesson of prev world → this banner */}
               {worldIndex > 0 && (
                 <PathConnector
                   fromStatus={lastPrevStatus}
                   toStatus={isWorldLocked ? LessonStatus.LOCKED : LessonStatus.AVAILABLE}
+                  fromOffset={lastPrevOffset}
+                  toOffset={0}
                 />
               )}
 
@@ -145,9 +157,7 @@ export default function LearnPage() {
                 <div className="flex items-center gap-3">
                   <span className="text-4xl">{world.icon}</span>
                   <div className="flex-1">
-                    <p className="text-xs font-bold uppercase tracking-wider text-white/80">
-                      Nivel {worldIndex + 1}
-                    </p>
+                    <p className="text-xs font-bold uppercase tracking-wider text-white/80">Nivel {worldIndex + 1}</p>
                     <h2 className="text-lg font-extrabold text-white leading-tight">{world.title}</h2>
                     <p className="text-xs text-white/70 mt-0.5">{world.description}</p>
                   </div>
@@ -159,10 +169,12 @@ export default function LearnPage() {
                 </div>
               </motion.div>
 
-              {/* Connector from banner to first lesson */}
+              {/* Connector: banner → first lesson */}
               <PathConnector
                 fromStatus={isWorldLocked ? LessonStatus.LOCKED : LessonStatus.COMPLETED}
                 toStatus={isWorldLocked ? LessonStatus.LOCKED : LessonStatus.AVAILABLE}
+                fromOffset={0}
+                toOffset={firstLessonOffset}
               />
 
               {/* Units and lessons */}
@@ -189,13 +201,17 @@ export default function LearnPage() {
                     const isFirstOfWorld = unitIndex === 0 && lessonIndex === 0;
                     const isFirstOfUnit = lessonIndex === 0;
 
-                    let connectorFromStatus = LessonStatus.LOCKED;
+                    let connFromOffset = 0;
+                    let connFromStatus = LessonStatus.LOCKED;
                     if (!isFirstOfWorld) {
                       if (!isFirstOfUnit) {
-                        connectorFromStatus = lessonStatuses.get(unit.lessons[lessonIndex - 1].id)?.status ?? LessonStatus.LOCKED;
+                        connFromStatus = lessonStatuses.get(unit.lessons[lessonIndex - 1].id)?.status ?? LessonStatus.LOCKED;
+                        connFromOffset = getZigzagOffset(currentGlobalIndex - 1);
                       } else {
                         const prevUnit = world.units[unitIndex - 1];
-                        connectorFromStatus = lessonStatuses.get(prevUnit.lessons[prevUnit.lessons.length - 1].id)?.status ?? LessonStatus.LOCKED;
+                        const prevLesson = prevUnit.lessons[prevUnit.lessons.length - 1];
+                        connFromStatus = lessonStatuses.get(prevLesson.id)?.status ?? LessonStatus.LOCKED;
+                        connFromOffset = getZigzagOffset(currentGlobalIndex - 1);
                       }
                     }
 
@@ -209,7 +225,12 @@ export default function LearnPage() {
                     return (
                       <div key={lesson.id} className="flex w-full flex-col items-center">
                         {!isFirstOfWorld && (
-                          <PathConnector fromStatus={connectorFromStatus} toStatus={status} />
+                          <PathConnector
+                            fromStatus={connFromStatus}
+                            toStatus={status}
+                            fromOffset={connFromOffset}
+                            toOffset={offset}
+                          />
                         )}
 
                         <motion.div
@@ -236,9 +257,7 @@ export default function LearnPage() {
                         {isLastLesson && (
                           <div className="mt-8 flex flex-col items-center gap-2">
                             <div className="h-12 w-1.5 rounded-full bg-gray-200" />
-                            <div className="flex h-14 w-14 items-center justify-center rounded-full bg-gray-100 text-2xl shadow-sm">
-                              🏁
-                            </div>
+                            <div className="flex h-14 w-14 items-center justify-center rounded-full bg-gray-100 text-2xl shadow-sm">🏁</div>
                             <p className="text-xs font-medium text-gray-400">Más contenido pronto</p>
                           </div>
                         )}

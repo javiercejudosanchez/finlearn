@@ -3,24 +3,32 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
-import { ArrowLeft, Eye, EyeOff } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Eye, EyeOff } from "lucide-react";
 import { useGameStore } from "@/stores/gameStore";
+import { useBadgeStore } from "@/stores/badgeStore";
+import { useStatsStore } from "@/stores/statsStore";
 import { LevelProgress } from "@/components/gamification/LevelProgress";
 import { getSupabase } from "@/lib/supabase";
 import { Button } from "@/components/ui/Button";
 
 const AVATARS = [
   "🐻", "🦊", "🐼", "🦁", "🐯", "🐺", "🦝", "🐨",
-  "🦊", "🐸", "🐧", "🦉", "🦋", "🐬", "🦄", "🐲",
-  "🧑‍💼", "👩‍💻", "🧑‍🎓", "🏆",
+  "🐸", "🐧", "🦉", "🦋", "🐬", "🦄", "🐲",
+  "🧑‍💼", "👩‍💻", "🧑‍🎓", "🏆", "⭐",
 ];
 
-const BADGES = [
-  { id: "first_lesson", icon: "🎓", label: "Primera lección", desc: "Completa tu primera lección" },
-  { id: "streak_3",     icon: "🔥", label: "Racha de 3 días", desc: "Estudia 3 días seguidos" },
-  { id: "perfect",      icon: "⭐", label: "Sin fallos",      desc: "Completa un test sin errores" },
-  { id: "level1",       icon: "🏆", label: "Nivel 1 superado", desc: "Termina todas las lecciones del nivel 1" },
+const ALL_BADGES = [
+  { id: "first_test",       icon: "🌟", label: "Primer paso",         desc: "Completa el primer test" },
+  { id: "streak_3",         icon: "🔥", label: "En racha",            desc: "Estudia 3 días consecutivos" },
+  { id: "perfect_test",     icon: "💯", label: "Perfección",          desc: "Completa un test con 10/10 aciertos" },
+  { id: "level1_complete",  icon: "🏅", label: "Nivel 1 completo",    desc: "Termina todos los tests del Nivel 1" },
+  { id: "cards_5",          icon: "📚", label: "Estudioso",           desc: "Lee 5 cartas de estudio" },
+  { id: "tests_10",         icon: "💪", label: "Imparable",           desc: "Completa 10 tests en total" },
+  { id: "tiger_friend",     icon: "🐯", label: "Amigo del tigre",     desc: "Estudia 7 días consecutivos" },
+  { id: "level2_complete",  icon: "🏆", label: "Nivel 2 completo",    desc: "Termina todos los tests del Nivel 2" },
+  { id: "star_200",         icon: "⭐", label: "Estrella",            desc: "Acumula 200 puntos" },
+  { id: "sharpshooter",     icon: "🎯", label: "Francotirador",       desc: "Acierta 50 preguntas seguidas sin fallar" },
 ];
 
 type UserData = {
@@ -35,6 +43,8 @@ type UserData = {
 export default function ProfilePage() {
   const router = useRouter();
   const { xp, streak, hearts, globalMistakeCount, syncFromAPI } = useGameStore();
+  const { earnedBadges, newlyUnlocked, unlock, dismissNotification } = useBadgeStore();
+  const stats = useStatsStore();
 
   const [userData, setUserData] = useState<UserData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -71,6 +81,16 @@ export default function ProfilePage() {
     }
     load();
   }, [router, syncFromAPI]);
+
+  // Check and unlock badges based on current data
+  useEffect(() => {
+    if (stats.testsCompleted >= 1)  unlock("first_test");
+    if (streak >= 3)                unlock("streak_3");
+    if (streak >= 7)                unlock("tiger_friend");
+    if (stats.testsCompleted >= 10) unlock("tests_10");
+    if (xp >= 200)                  unlock("star_200");
+    if (stats.bestAnswerStreak >= 50) unlock("sharpshooter");
+  }, [streak, stats.testsCompleted, xp, stats.bestAnswerStreak, unlock]);
 
   const saveName = async () => {
     if (!userData) return;
@@ -122,20 +142,47 @@ export default function ProfilePage() {
 
   const displayName = userData?.name ?? userData?.email?.split("@")[0] ?? "Usuario";
   const avatar = userData?.avatarUrl ?? "🐻";
-
-  // Compute earned badges
-  const earnedBadges = new Set<string>();
-  if ((userData?.lessonsCompleted ?? 0) >= 1) earnedBadges.add("first_lesson");
-  if (streak >= 3) earnedBadges.add("streak_3");
-  // "perfect" and "level1" require more data — keep locked for now
+  const newlyUnlockedBadge = ALL_BADGES.find((b) => b.id === newlyUnlocked);
 
   return (
     <div className="mx-auto max-w-xl px-4 py-8">
+      {/* Badge unlock notification */}
+      <AnimatePresence>
+        {newlyUnlockedBadge && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.8, y: 20 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+            onClick={dismissNotification}
+          >
+            <motion.div
+              className="w-full max-w-sm rounded-3xl bg-white p-8 shadow-2xl text-center"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="text-6xl mb-4">🐯</div>
+              <h3 className="text-2xl font-extrabold text-gray-800 mb-1">¡Insignia desbloqueada!</h3>
+              <div className="my-5 flex flex-col items-center gap-2">
+                <motion.div
+                  animate={{ rotate: [0, -10, 10, -5, 5, 0], scale: [1, 1.2, 1.2, 1.1, 1] }}
+                  transition={{ duration: 0.6 }}
+                  className="flex h-20 w-20 items-center justify-center rounded-full bg-amber-50 border-4 border-amber-300 text-4xl shadow-lg"
+                >
+                  {newlyUnlockedBadge.icon}
+                </motion.div>
+                <p className="text-lg font-bold text-amber-600">{newlyUnlockedBadge.label}</p>
+                <p className="text-sm text-gray-500">{newlyUnlockedBadge.desc}</p>
+              </div>
+              <Button onClick={dismissNotification} className="w-full">¡Genial!</Button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Back */}
       <div className="mb-4 flex items-center gap-2">
         <Link href="/learn" className="flex items-center gap-1 rounded-lg p-1.5 text-gray-500 transition-colors hover:bg-white">
-          <ArrowLeft className="h-5 w-5" />
-          <span className="text-sm">Volver</span>
+          <span className="text-sm">← Volver</span>
         </Link>
       </div>
 
@@ -212,23 +259,30 @@ export default function ProfilePage() {
         <LevelProgress />
       </div>
 
-      {/* Badges */}
+      {/* Logros / Badges */}
       <div className="mt-6 rounded-2xl bg-white p-5 shadow-sm border border-orange-100">
-        <h2 className="mb-4 font-bold text-gray-700">Insignias</h2>
-        <div className="grid grid-cols-4 gap-3">
-          {BADGES.map((badge) => {
-            const earned = earnedBadges.has(badge.id);
+        <div className="mb-4 flex items-center justify-between">
+          <h2 className="font-bold text-gray-700">Logros</h2>
+          <span className="text-xs text-gray-400">{earnedBadges.length}/{ALL_BADGES.length} desbloqueados</span>
+        </div>
+        <div className="grid grid-cols-5 gap-3">
+          {ALL_BADGES.map((badge) => {
+            const earned = earnedBadges.includes(badge.id);
             return (
               <motion.div
                 key={badge.id}
-                whileHover={{ scale: 1.05 }}
-                title={badge.desc}
+                whileHover={{ scale: 1.08 }}
+                title={`${badge.label}: ${badge.desc}`}
                 className="flex flex-col items-center gap-1"
               >
-                <div className={`flex h-14 w-14 items-center justify-center rounded-full text-2xl border-2 ${earned ? "bg-amber-50 border-amber-300 shadow-sm" : "bg-gray-100 border-gray-200 grayscale opacity-50"}`}>
-                  {badge.icon}
+                <div className={`flex h-14 w-14 items-center justify-center rounded-full text-2xl border-2 ${
+                  earned
+                    ? "bg-amber-50 border-amber-300 shadow-sm"
+                    : "bg-gray-100 border-gray-200 grayscale opacity-40"
+                }`}>
+                  {earned ? badge.icon : "🔒"}
                 </div>
-                <span className="text-center text-[10px] font-medium text-gray-500 leading-tight">{badge.label}</span>
+                <span className="text-center text-[9px] font-medium text-gray-500 leading-tight">{badge.label}</span>
               </motion.div>
             );
           })}
