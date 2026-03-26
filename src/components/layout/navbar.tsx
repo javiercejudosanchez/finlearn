@@ -19,8 +19,6 @@ export function Navbar() {
   const router = useRouter();
   const pathname = usePathname();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userAvatar, setUserAvatar] = useState<string | null>(null);
-  const [userName, setUserName] = useState<string | null>(null);
   const { hearts, streak, xp, globalMistakeCount, syncFromAPI } = useGameStore();
 
   useEffect(() => {
@@ -31,8 +29,6 @@ export function Navbar() {
         const res = await fetch(`/api/user?userId=${userId}`);
         if (res.ok) {
           const user = await res.json();
-          if (user.avatarUrl) setUserAvatar(user.avatarUrl);
-          setUserName(user.name ?? user.email?.split("@")[0] ?? null);
           syncFromAPI({
             xp: user.xp ?? 0,
             hearts: user.lives ?? 5,
@@ -55,7 +51,7 @@ export function Navbar() {
     const { data: listener } = supabase.auth.onAuthStateChange(async (_event, session) => {
       setIsLoggedIn(!!session);
       if (session?.user?.id) loadUser(session.user.id);
-      else { setUserAvatar(null); setUserName(null); }
+
     });
 
     return () => listener.subscription.unsubscribe();
@@ -66,7 +62,6 @@ export function Navbar() {
     router.push("/login");
   };
 
-  void userAvatar;
 
   return (
     <>

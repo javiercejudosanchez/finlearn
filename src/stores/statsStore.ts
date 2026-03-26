@@ -22,7 +22,7 @@ interface StatsState {
   addWrongAnswerStat: () => void;
 }
 
-export const useStatsStore = create<StatsState>()((set, get) => ({
+export const useStatsStore = create<StatsState>()((set) => ({
   testsCompleted: load("fl_stats_tests", 0),
   questionsAnswered: load("fl_stats_qa", 0),
   questionsCorrect: load("fl_stats_qc", 0),
